@@ -11,6 +11,7 @@ import org.springframework.web.context.request.WebRequest;
 import org.springframework.web.servlet.mvc.method.annotation.ResponseEntityExceptionHandler;
 
 import com.br.com.udemy.springbootaws.exceptions.ExceptionResponse;
+import com.br.com.udemy.springbootaws.exceptions.RequiredObjectIsNullException;
 import com.br.com.udemy.springbootaws.exceptions.ResourceNotFoundException;
 import com.br.com.udemy.springbootaws.exceptions.UnsupportedMathOperationException;
 
@@ -43,6 +44,15 @@ public class CustomizedResponseEntityExceptionHandler extends ResponseEntityExce
 				request.getDescription(false));
 		
 		return new ResponseEntity<>(exceptionResponse, HttpStatus.NOT_FOUND);
+	}
+	
+	@ExceptionHandler(RequiredObjectIsNullException.class)
+	public final ResponseEntity<ExceptionResponse> handleRequiredObjectIsNullExceptionExceptions(Exception ex, WebRequest request) {
+		
+		ExceptionResponse exceptionResponse = new ExceptionResponse(new Date(), ex.getMessage(),
+				request.getDescription(false));
+		
+		return new ResponseEntity<>(exceptionResponse, HttpStatus.BAD_REQUEST);
 	}
 
 }
