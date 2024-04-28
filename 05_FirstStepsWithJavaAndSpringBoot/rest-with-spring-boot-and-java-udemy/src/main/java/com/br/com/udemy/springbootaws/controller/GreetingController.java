@@ -1,5 +1,7 @@
 package com.br.com.udemy.springbootaws.controller;
 
+import java.util.ArrayList;
+import java.util.List;
 import java.util.concurrent.atomic.AtomicLong;
 
 import org.springframework.web.bind.annotation.RequestMapping;
@@ -16,6 +18,7 @@ public class GreetingController {
 	
 	@RequestMapping("/greeting")
 	public Greeting greeting(@RequestParam(value = "name", defaultValue= "World") String name) {
+		List<String> teste = new ArrayList<>();
 		return new Greeting(counter.incrementAndGet(), String.format(template, name));
 	}
 	
