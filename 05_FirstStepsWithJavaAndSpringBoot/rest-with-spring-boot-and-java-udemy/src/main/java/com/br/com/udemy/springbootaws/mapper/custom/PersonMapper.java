@@ -4,7 +4,7 @@ import java.util.Date;
 
 import org.springframework.stereotype.Service;
 
-import com.br.com.udemy.springbootaws.model.Person;
+import com.br.com.udemy.springbootaws.model.person.Person;
 import com.br.com.udemy.springbootaws.vo.v2.PersonVOV2;
 
 @Service

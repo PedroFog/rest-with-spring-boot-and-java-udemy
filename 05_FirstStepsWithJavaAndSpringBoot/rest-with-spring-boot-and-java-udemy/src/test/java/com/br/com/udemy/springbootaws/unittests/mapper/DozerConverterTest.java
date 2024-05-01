@@ -8,7 +8,7 @@ import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 
 import com.br.com.udemy.springbootaws.mapper.DozerMapper;
-import com.br.com.udemy.springbootaws.model.Person;
+import com.br.com.udemy.springbootaws.model.person.Person;
 import com.br.com.udemy.springbootaws.unittests.mapper.mocks.MockPerson;
 import com.br.com.udemy.springbootaws.vo.v1.PersonVO;
 

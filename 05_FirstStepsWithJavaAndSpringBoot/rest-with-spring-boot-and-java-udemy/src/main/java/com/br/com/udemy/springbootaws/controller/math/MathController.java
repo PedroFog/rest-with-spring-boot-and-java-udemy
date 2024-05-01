@@ -1,11 +1,11 @@
-package com.br.com.udemy.springbootaws.controller;
+package com.br.com.udemy.springbootaws.controller.math;
 
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.RestController;
 
-import com.br.com.udemy.springbootaws.services.MathService;
+import com.br.com.udemy.springbootaws.services.math.MathService;
 
 @RestController
 public class MathController {

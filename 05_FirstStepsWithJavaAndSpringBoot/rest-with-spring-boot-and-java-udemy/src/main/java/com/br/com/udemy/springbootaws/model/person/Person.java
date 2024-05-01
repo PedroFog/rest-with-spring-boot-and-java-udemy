@@ -1,4 +1,4 @@
-package com.br.com.udemy.springbootaws.model;
+package com.br.com.udemy.springbootaws.model.person;
 
 import java.io.Serializable;
 import java.util.Objects;

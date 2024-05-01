@@ -1,4 +1,4 @@
-package com.br.com.udemy.springbootaws.services;
+package com.br.com.udemy.springbootaws.services.math;
 
 import java.util.function.BiFunction;
 import java.util.function.Function;

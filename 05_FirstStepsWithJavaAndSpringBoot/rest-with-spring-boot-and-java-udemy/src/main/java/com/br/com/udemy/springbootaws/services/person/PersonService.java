@@ -1,4 +1,4 @@
-package com.br.com.udemy.springbootaws.services;
+package com.br.com.udemy.springbootaws.services.person;
 
 import static org.springframework.hateoas.server.mvc.WebMvcLinkBuilder.linkTo;
 import static org.springframework.hateoas.server.mvc.WebMvcLinkBuilder.methodOn;
@@ -9,13 +9,13 @@ import java.util.logging.Logger;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
-import com.br.com.udemy.springbootaws.controller.PersonController;
+import com.br.com.udemy.springbootaws.controller.person.PersonController;
 import com.br.com.udemy.springbootaws.exceptions.RequiredObjectIsNullException;
 import com.br.com.udemy.springbootaws.exceptions.ResourceNotFoundException;
 import com.br.com.udemy.springbootaws.mapper.DozerMapper;
 import com.br.com.udemy.springbootaws.mapper.custom.PersonMapper;
-import com.br.com.udemy.springbootaws.model.Person;
-import com.br.com.udemy.springbootaws.repository.PersonRepository;
+import com.br.com.udemy.springbootaws.model.person.Person;
+import com.br.com.udemy.springbootaws.repository.person.PersonRepository;
 import com.br.com.udemy.springbootaws.vo.v1.PersonVO;
 
 @Service

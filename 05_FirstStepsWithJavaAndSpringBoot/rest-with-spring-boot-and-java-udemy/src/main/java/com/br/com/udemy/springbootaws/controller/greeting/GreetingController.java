@@ -1,4 +1,4 @@
-package com.br.com.udemy.springbootaws.controller;
+package com.br.com.udemy.springbootaws.controller.greeting;
 
 import java.util.ArrayList;
 import java.util.List;

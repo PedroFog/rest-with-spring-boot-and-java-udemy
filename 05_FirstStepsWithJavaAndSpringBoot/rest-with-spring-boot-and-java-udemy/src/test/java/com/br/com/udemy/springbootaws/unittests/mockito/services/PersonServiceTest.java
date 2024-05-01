@@ -20,9 +20,9 @@ import org.mockito.MockitoAnnotations;
 import org.mockito.junit.jupiter.MockitoExtension;
 
 import com.br.com.udemy.springbootaws.exceptions.RequiredObjectIsNullException;
-import com.br.com.udemy.springbootaws.model.Person;
-import com.br.com.udemy.springbootaws.repository.PersonRepository;
-import com.br.com.udemy.springbootaws.services.PersonService;
+import com.br.com.udemy.springbootaws.model.person.Person;
+import com.br.com.udemy.springbootaws.repository.person.PersonRepository;
+import com.br.com.udemy.springbootaws.services.person.PersonService;
 import com.br.com.udemy.springbootaws.unittests.mapper.mocks.MockPerson;
 import com.br.com.udemy.springbootaws.vo.v1.PersonVO;
 

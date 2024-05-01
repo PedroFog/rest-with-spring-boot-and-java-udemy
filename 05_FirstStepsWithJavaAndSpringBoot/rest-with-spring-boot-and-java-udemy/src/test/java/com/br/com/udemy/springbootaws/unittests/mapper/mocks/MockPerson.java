@@ -3,7 +3,7 @@ package com.br.com.udemy.springbootaws.unittests.mapper.mocks;
 import java.util.ArrayList;
 import java.util.List;
 
-import com.br.com.udemy.springbootaws.model.Person;
+import com.br.com.udemy.springbootaws.model.person.Person;
 import com.br.com.udemy.springbootaws.vo.v1.PersonVO;
 
 public class MockPerson {
