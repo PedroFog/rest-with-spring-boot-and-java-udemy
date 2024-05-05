@@ -13,7 +13,6 @@ import com.br.com.udemy.springbootaws.controller.person.PersonController;
 import com.br.com.udemy.springbootaws.exceptions.RequiredObjectIsNullException;
 import com.br.com.udemy.springbootaws.exceptions.ResourceNotFoundException;
 import com.br.com.udemy.springbootaws.mapper.DozerMapper;
-import com.br.com.udemy.springbootaws.mapper.custom.PersonMapper;
 import com.br.com.udemy.springbootaws.model.person.Person;
 import com.br.com.udemy.springbootaws.repository.person.PersonRepository;
 import com.br.com.udemy.springbootaws.vo.v1.PersonVO;
@@ -25,9 +24,6 @@ public class PersonService {
 
 	@Autowired
 	private PersonRepository repository;
-
-	@Autowired
-	private PersonMapper mapper;
 
 	public List<PersonVO> findAll() {
 		logger.info("Finding all people");

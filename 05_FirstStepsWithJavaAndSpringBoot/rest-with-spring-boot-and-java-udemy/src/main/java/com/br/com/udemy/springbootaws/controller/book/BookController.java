@@ -35,7 +35,7 @@ public class BookController {
 	}
 
 	@GetMapping(produces = { MediaType.APPLICATION_JSON, MediaType.APPLICATION_XML, MediaType.APPLICATION_YML })
-	@Operation(summary = "Finds all books", description = "Finds all books", tags = { "Book" }, responses = {
+	@Operation(summary = "Finds all books", description = "Finds all books", tags = { "Books" }, responses = {
 			@ApiResponse(description = "Success", responseCode = "200", content = {
 					@Content(mediaType = "application/json", array = @ArraySchema(schema = @Schema(implementation = BookVO.class))) }),
 			@ApiResponse(description = "Bad Request", responseCode = "400", content = @Content),
@@ -48,7 +48,7 @@ public class BookController {
 
 	@GetMapping(value = "/{id}", produces = { MediaType.APPLICATION_JSON, MediaType.APPLICATION_XML,
 			MediaType.APPLICATION_YML })
-	@Operation(summary = "Finds a book", description = "Finds a book", tags = { "Book" }, responses = {
+	@Operation(summary = "Finds a book", description = "Finds a book", tags = { "Books" }, responses = {
 			@ApiResponse(description = "Success", responseCode = "200", content = {
 					@Content(mediaType = "application/json", schema = @Schema(implementation = BookVO.class)) }),
 			@ApiResponse(description = "No Content", responseCode = "204", content = @Content),
@@ -63,7 +63,7 @@ public class BookController {
 	@PostMapping(consumes = { MediaType.APPLICATION_JSON, MediaType.APPLICATION_XML,
 			MediaType.APPLICATION_YML }, produces = { MediaType.APPLICATION_JSON, MediaType.APPLICATION_XML,
 					MediaType.APPLICATION_YML })
-	@Operation(summary = "Creates a new book", description = "Creates a new book", tags = { "Book" }, responses = {
+	@Operation(summary = "Creates a new book", description = "Creates a new book", tags = { "Books" }, responses = {
 			@ApiResponse(description = "Created", responseCode = "200", content = {
 					@Content(mediaType = "application/json", schema = @Schema(implementation = BookVO.class)) }),
 			@ApiResponse(description = "Bad Request", responseCode = "400", content = @Content),
@@ -77,7 +77,7 @@ public class BookController {
 	@PutMapping(consumes = { MediaType.APPLICATION_JSON, MediaType.APPLICATION_XML,
 			MediaType.APPLICATION_YML }, produces = { MediaType.APPLICATION_JSON, MediaType.APPLICATION_XML,
 					MediaType.APPLICATION_YML })
-	@Operation(summary = "Updates a Book", description = "Updates a Book", tags = { "Book" }, responses = {
+	@Operation(summary = "Updates a Book", description = "Updates a Book", tags = { "Books" }, responses = {
 			@ApiResponse(description = "Updated", responseCode = "200", content = {
 					@Content(mediaType = "application/json", schema = @Schema(implementation = BookVO.class)) }),
 			@ApiResponse(description = "No Content", responseCode = "204", content = @Content),
@@ -90,7 +90,7 @@ public class BookController {
 	}
 
 	@DeleteMapping("/{id}")
-	@Operation(summary = "Deletes a book", description = "Deletes a book", tags = { "Book" }, responses = {
+	@Operation(summary = "Deletes a book", description = "Deletes a book", tags = { "Books" }, responses = {
 			@ApiResponse(description = "No Nontent", responseCode = "204", content = { @Content }),
 			@ApiResponse(description = "Bad Request", responseCode = "400", content = @Content),
 			@ApiResponse(description = "Unauthorized", responseCode = "401", content = @Content),
