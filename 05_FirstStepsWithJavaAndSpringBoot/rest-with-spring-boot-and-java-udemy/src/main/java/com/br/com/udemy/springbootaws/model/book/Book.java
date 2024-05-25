@@ -17,6 +17,10 @@ import jakarta.persistence.Table;
 public class Book implements Serializable {
 
 	private static final long serialVersionUID = 1L;
+	
+	public void printarBook() {
+		System.out.println("Classe pai");
+	}
 
 	@Id
 	@GeneratedValue(strategy = GenerationType.IDENTITY)

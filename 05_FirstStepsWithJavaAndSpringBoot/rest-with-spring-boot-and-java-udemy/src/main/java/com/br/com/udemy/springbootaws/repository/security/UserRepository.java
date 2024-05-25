@@ -8,7 +8,7 @@ import com.br.com.udemy.springbootaws.model.security.User;
 
 public interface UserRepository extends JpaRepository<User, Long>{
 	
-	@Query("SELECT u FROM User WHERE u.userName = :userName")
+	@Query("SELECT u FROM User u WHERE u.userName = :userName")
 	User findByUsername(@Param("userName") String userName);
 	
 

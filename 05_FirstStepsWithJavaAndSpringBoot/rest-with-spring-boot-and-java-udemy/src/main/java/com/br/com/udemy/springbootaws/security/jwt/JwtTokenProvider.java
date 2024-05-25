@@ -1,4 +1,4 @@
-package com.br.com.udemy.springbootaws.securityJwt;
+package com.br.com.udemy.springbootaws.security.jwt;
 
 import java.util.Base64;
 import java.util.Date;
@@ -50,6 +50,20 @@ public class JwtTokenProvider {
 		var refreshToken = getRefreshToken(username, roles, now);
 
 		return new TokenVO(username, true, now, validity, accessToken, refreshToken);
+	}
+	
+	public TokenVO refreshToken(String refreshToken) {
+		
+		if(refreshToken.contains("Bearer ")) {
+			refreshToken = refreshToken.substring("Bearer ".length());
+		}
+		
+		JWTVerifier verifier = JWT.require(algorithm).build();
+		var decodedJWT = verifier.verify(refreshToken);
+		String username = decodedJWT.getSubject();
+		List<String> roles = decodedJWT.getClaim("roles").asList(String.class);
+		return createAccessToken(username, roles);
+
 	}
 
 	private String getAccessToken(String username, List<String> roles, Date now, Date validity) {
