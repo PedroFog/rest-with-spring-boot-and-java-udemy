@@ -12,7 +12,7 @@ This project is part of a course on Udemy about using Spring with AWS.
 - Rest Assured
 - MySQL
 - Flyway
-- Security (In progress)
+- Security
 
 ## Running the Project
 
