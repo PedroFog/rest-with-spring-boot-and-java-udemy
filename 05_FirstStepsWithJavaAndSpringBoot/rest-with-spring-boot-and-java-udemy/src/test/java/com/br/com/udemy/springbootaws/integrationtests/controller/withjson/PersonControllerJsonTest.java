@@ -1,11 +1,10 @@
 package com.br.com.udemy.springbootaws.integrationtests.controller.withjson;
 
 import static io.restassured.RestAssured.given;
+import static org.junit.Assert.assertFalse;
 import static org.junit.jupiter.api.Assertions.assertEquals;
 import static org.junit.jupiter.api.Assertions.assertNotNull;
 import static org.junit.jupiter.api.Assertions.assertTrue;
-
-import java.util.List;
 
 import org.junit.jupiter.api.BeforeAll;
 import org.junit.jupiter.api.MethodOrderer.OrderAnnotation;
@@ -19,8 +18,8 @@ import com.br.com.udemy.springbootaws.integrationtests.testcontainers.AbstractIn
 import com.br.com.udemy.springbootaws.integrationtests.vo.AccountCredentialsVO;
 import com.br.com.udemy.springbootaws.integrationtests.vo.PersonVO;
 import com.br.com.udemy.springbootaws.integrationtests.vo.TokenVO;
+import com.br.com.udemy.springbootaws.integrationtests.vo.wrappers.WrapperPersonVO;
 import com.fasterxml.jackson.core.JsonProcessingException;
-import com.fasterxml.jackson.core.type.TypeReference;
 import com.fasterxml.jackson.databind.DeserializationFeature;
 import com.fasterxml.jackson.databind.JsonMappingException;
 import com.fasterxml.jackson.databind.ObjectMapper;
@@ -83,6 +82,7 @@ public class PersonControllerJsonTest extends AbstractIntegrationTest {
 		assertNotNull(persistedPerson.getLastName());
 		assertNotNull(persistedPerson.getAddress());
 		assertNotNull(persistedPerson.getGender());
+		assertTrue(persistedPerson.getEnabled());
 
 		assertTrue(persistedPerson.getId() > 0);
 
@@ -108,6 +108,7 @@ public class PersonControllerJsonTest extends AbstractIntegrationTest {
 		assertNotNull(persistedPerson.getLastName());
 		assertNotNull(persistedPerson.getAddress());
 		assertNotNull(persistedPerson.getGender());
+		assertTrue(persistedPerson.getEnabled());
 
 		assertEquals(person.getId(), persistedPerson.getId());
 
@@ -119,6 +120,32 @@ public class PersonControllerJsonTest extends AbstractIntegrationTest {
 
 	@Test
 	@Order(3)
+	public void testDisablePersonById() throws JsonMappingException, JsonProcessingException {
+		var content = given().spec(specification).contentType(TestConfigs.CONTENT_TYPE_JSON)
+				.header(TestConfigs.HEADER_PARAM_ORIGIN, TestConfigs.ORIGIN_UDEMY).pathParam("id", person.getId())
+				.when().patch("{id}").then().statusCode(200).extract().body().asString();
+
+		PersonVO persistedPerson = objectMapper.readValue(content, PersonVO.class);
+		person = persistedPerson;
+
+		assertNotNull(persistedPerson);
+		assertNotNull(persistedPerson.getId());
+		assertNotNull(persistedPerson.getFirstName());
+		assertNotNull(persistedPerson.getLastName());
+		assertNotNull(persistedPerson.getAddress());
+		assertNotNull(persistedPerson.getGender());
+		assertFalse(persistedPerson.getEnabled());
+
+		assertEquals(person.getId(), persistedPerson.getId());
+
+		assertEquals("Pedro", persistedPerson.getFirstName());
+		assertEquals("Foganholi Update", persistedPerson.getLastName());
+		assertEquals("Assis", persistedPerson.getAddress());
+		assertEquals("Male", persistedPerson.getGender());
+	}
+
+	@Test
+	@Order(4)
 	public void testFindById() throws JsonMappingException, JsonProcessingException {
 		mockPerson();
 
@@ -135,6 +162,7 @@ public class PersonControllerJsonTest extends AbstractIntegrationTest {
 		assertNotNull(persistedPerson.getLastName());
 		assertNotNull(persistedPerson.getAddress());
 		assertNotNull(persistedPerson.getGender());
+		assertFalse(persistedPerson.getEnabled());
 
 		assertEquals(person.getId(), persistedPerson.getId());
 
@@ -145,21 +173,21 @@ public class PersonControllerJsonTest extends AbstractIntegrationTest {
 	}
 
 	@Test
-	@Order(4)
+	@Order(5)
 	public void testDelete() throws JsonMappingException, JsonProcessingException {
 		given().spec(specification).contentType(TestConfigs.CONTENT_TYPE_JSON).pathParam("id", person.getId()).when()
 				.delete("{id}").then().statusCode(204);
 	}
 
 	@Test
-	@Order(5)
+	@Order(6)
 	public void testFindAll() throws JsonMappingException, JsonProcessingException {
-		var content = given().spec(specification).contentType(TestConfigs.CONTENT_TYPE_JSON).when().get().then()
-				.statusCode(200).extract().body().asString();
-		// .as(new TypeRef<List<PersonVO>>() {});
+		var content = given().spec(specification).contentType(TestConfigs.CONTENT_TYPE_JSON)
+				.queryParams("page", 3, "size", 10, "direction", "asc").when().get().then().statusCode(200).extract()
+				.body().asString();
 
-		List<PersonVO> people = objectMapper.readValue(content, new TypeReference<List<PersonVO>>() {
-		});
+		WrapperPersonVO wrapper = objectMapper.readValue(content, WrapperPersonVO.class);
+		var people = wrapper.getEmbedded().getPersons();
 
 		PersonVO foundPersonOne = people.get(0);
 		assertNotNull(foundPersonOne.getId());
@@ -168,11 +196,11 @@ public class PersonControllerJsonTest extends AbstractIntegrationTest {
 		assertNotNull(foundPersonOne.getAddress());
 		assertNotNull(foundPersonOne.getGender());
 
-		assertEquals(1, foundPersonOne.getId());
+		assertEquals(194, foundPersonOne.getId());
 
-		assertEquals("Pedro", foundPersonOne.getFirstName());
-		assertEquals("Foganholi", foundPersonOne.getLastName());
-		assertEquals("Assis, São Paulo", foundPersonOne.getAddress());
+		assertEquals("Alfred", foundPersonOne.getFirstName());
+		assertEquals("Grant", foundPersonOne.getLastName());
+		assertEquals("492 Hermina Junction", foundPersonOne.getAddress());
 		assertEquals("Male", foundPersonOne.getGender());
 
 		PersonVO foundPersonSecond = people.get(1);
@@ -183,16 +211,16 @@ public class PersonControllerJsonTest extends AbstractIntegrationTest {
 		assertNotNull(foundPersonSecond.getAddress());
 		assertNotNull(foundPersonSecond.getGender());
 
-		assertEquals(2, foundPersonSecond.getId());
+		assertEquals(714, foundPersonSecond.getId());
 
-		assertEquals("Carlos", foundPersonSecond.getFirstName());
-		assertEquals("Goes", foundPersonSecond.getLastName());
-		assertEquals("Assis, São Paulo", foundPersonSecond.getAddress());
-		assertEquals("Male", foundPersonSecond.getGender());
+		assertEquals("Ali", foundPersonSecond.getFirstName());
+		assertEquals("Basilotta", foundPersonSecond.getLastName());
+		assertEquals("856 Paget Pass", foundPersonSecond.getAddress());
+		assertEquals("Female", foundPersonSecond.getGender());
 	}
 
 	@Test
-	@Order(6)
+	@Order(7)
 	public void testFindAllWithoutToken() throws JsonMappingException, JsonProcessingException {
 		RequestSpecification specificationWithoutToken = new RequestSpecBuilder().setBasePath("/api/person/v1")
 				.setPort(TestConfigs.SERVER_PORT).addFilter(new RequestLoggingFilter(LogDetail.ALL))
@@ -202,12 +230,61 @@ public class PersonControllerJsonTest extends AbstractIntegrationTest {
 				.statusCode(403);
 
 	}
+	
+	@Test
+	@Order(8)
+	public void testFindByName() throws JsonMappingException, JsonProcessingException {
+		var content = given().spec(specification).contentType(TestConfigs.CONTENT_TYPE_JSON)
+				.pathParam("firstName", "Beatr")
+				.queryParams("page", 0, "size", 10, "direction", "asc").when().get("name/{firstName}").then().statusCode(200).extract()
+				.body().asString();
+
+		WrapperPersonVO wrapper = objectMapper.readValue(content, WrapperPersonVO.class);
+		var people = wrapper.getEmbedded().getPersons();
+
+		PersonVO foundPersonOne = people.get(0);
+		assertNotNull(foundPersonOne.getId());
+		assertNotNull(foundPersonOne.getFirstName());
+		assertNotNull(foundPersonOne.getLastName());
+		assertNotNull(foundPersonOne.getAddress());
+		assertNotNull(foundPersonOne.getGender());
+		assertFalse(foundPersonOne.getEnabled());
+		assertEquals(546, foundPersonOne.getId());
+
+		assertEquals("Beatrix", foundPersonOne.getFirstName());
+		assertEquals("Ivanovic", foundPersonOne.getLastName());
+		assertEquals("39 Messerschmidt Park", foundPersonOne.getAddress());
+		assertEquals("Female", foundPersonOne.getGender());
+		
+
+	}
+	
+	@Test
+	@Order(9)
+	public void testHATEOAS() throws JsonMappingException, JsonProcessingException {
+		var content = given().spec(specification).contentType(TestConfigs.CONTENT_TYPE_JSON)
+				.queryParams("page", 3, "size", 10, "direction", "asc").when().get().then().statusCode(200).extract()
+				.body().asString();
+
+		assertTrue(content.contains("_links\":{\"self\":{\"href\":\"http://localhost:8888/api/person/v1/920"));
+		assertTrue(content.contains("_links\":{\"self\":{\"href\":\"http://localhost:8888/api/person/v1/841"));
+		assertTrue(content.contains("_links\":{\"self\":{\"href\":\"http://localhost:8888/api/person/v1/102"));
+		
+		assertTrue(content.contains("{\"first\":{\"href\":\"http://localhost:8888/api/person/v1?direction=asc&page=0&size=10&sort=firstName,asc\"}"));
+		assertTrue(content.contains("\"prev\":{\"href\":\"http://localhost:8888/api/person/v1?direction=asc&page=2&size=10&sort=firstName,asc\"}"));
+		assertTrue(content.contains("\"self\":{\"href\":\"http://localhost:8888/api/person/v1?page=3&size=10&direction=asc\"}"));
+		assertTrue(content.contains("\"next\":{\"href\":\"http://localhost:8888/api/person/v1?direction=asc&page=4&size=10&sort=firstName,asc\"}"));
+		assertTrue(content.contains("\"last\":{\"href\":\"http://localhost:8888/api/person/v1?direction=asc&page=100&size=10&sort=firstName,asc\"}}"));
+		
+		assertTrue(content.contains("\"page\":{\"size\":10,\"totalElements\":1003,\"totalPages\":101,\"number\":3}}"));
+	}
 
 	private void mockPerson() {
 		person.setFirstName("Pedro");
 		person.setLastName("Foganholi");
 		person.setAddress("Assis");
 		person.setGender("Male");
+		person.setEnabled(true);
 
 	}
 
